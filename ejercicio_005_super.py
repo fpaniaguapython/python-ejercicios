@@ -9,4 +9,3 @@ class Luke(DarthVader):
 
 luke = Luke()
 luke.saludar()
-
