@@ -1,0 +1,13 @@
+IMPORTANTE: Cada clase estará definida en un fichero distinto.
+
+Crear una clase Calculadora con los siguientes métodos abstractos:
+-sumar(a,b)
+-restar
+-multiplicar
+-dividir
+Crear las implementaciones CalculadoraDecimal, CalculadoraBinaria, CalculadoraHexadecimal
+Crear un clase (Factory) con un método estático que devuelva una implementación de Calculadora
+en función de un fichero JSON.
+
+En el 'main', solicitar una Calculadora, verificar que es del tipo Calculadora,
+pedir al usuario la operación a realizar y los operandos y realizar el cálculo
