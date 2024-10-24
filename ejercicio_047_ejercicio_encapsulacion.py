@@ -15,7 +15,6 @@ Crear los métodos de acceso siguientes mediante el uso de notaciones:
 - Salario: get (acceso como propiedad).
 '''
 import re
-
 class Empleado:
     salario_minimo_interprofesional = 15_800
 
