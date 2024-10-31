@@ -1,0 +1,15 @@
+'''
+1. Un programa que solicite al usuario los datos de una película, 
+cree una instancia y la haga persistente en la carpeta compartida.
+
+2. Un programa que muestre el listado de películas que están en la 
+carpeta compartida, solicite un título,recupere en memoria los datos 
+y los muestre por pantalla.
+
+- ¿Módulo os?
+- Realizar una aproximación orientada a objetos y utilizar métodos 
+abstractos (si es posible)
+'''
+with open('//192.168.4.2/Users/CTA/Desktop/Fila 01/borrar2.txt','w') as f:
+    f.write("BORRAR")
+

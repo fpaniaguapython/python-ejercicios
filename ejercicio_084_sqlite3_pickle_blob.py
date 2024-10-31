@@ -1,4 +1,5 @@
 import sqlite3
+import pickle
 
 # 1. Abrir la conexión (se abre con un nombre de fichero)
 # 10. Cerrar la conexión
@@ -24,23 +25,24 @@ class DBManager:
         cursor = self.connection.cursor()
         cursor.execute("""CREATE TABLE IF NOT EXISTS peliculas 
                        (id INTEGER PRIMARY KEY AUTOINCREMENT,
-                       titulo TEXT NOT NULL, duracion INTEGER NOT NULL)""")
+                       pelicula BLOB NOT NULL)""")
         cursor.close()
 
+        #CRUD(C)-CREATE
+    
     #CRUD(C)-CREATE
     def insert_movie(self, movie):
         cursor = self.connection.cursor()
-        #cursor.execute(f"INSERT INTO peliculas (titulo, duracion) VALUES ('{movie.titulo}',{movie.duracion})")
-        cursor.execute("INSERT INTO peliculas (titulo, duracion) VALUES (?,?)",(movie.titulo, movie.duracion))
+        cursor.execute("INSERT INTO peliculas (pelicula) VALUES (?)",(movie,))
         self.connection.commit()
-        cursor.close()
+        cursor.close()  
 
     #CRUD(R)-READ
     def get_movie(self, id):
         cursor = self.connection.cursor()
         registro = cursor.execute("SELECT * FROM peliculas WHERE id=?",
                                   (id,)).fetchone()
-        pelicula = Pelicula(id=registro[0], titulo=registro[1], duracion=registro[2])
+        pelicula = pickle.loads(registro[1])
         cursor.close()
         return pelicula
     
@@ -50,36 +52,21 @@ class DBManager:
         registros = cursor.execute("SELECT * FROM peliculas").fetchall()
         peliculas = []
         for registro in registros:
-            peliculas.append(Pelicula(id=registro[0],titulo=registro[1],
-                                      duracion=registro[2]))
+            peliculas.append(pickle.loads(registro[1]))
         cursor.close()
         return peliculas
     
-    #CRUD(U)-UPDATE
-    def update_movie(self, movie):
-        cursor = self.connection.cursor()
-        cursor.execute("UPDATE peliculas SET titulo=?, duracion=? WHERE id=?"
-                       ,(movie.titulo, movie.duracion, movie.id))
-        self.connection.commit()
-        cursor.close()
-
-    #CRUD(D)-DELETE
-    def delete_movie(self, id):
-        cursor = self.connection.cursor()
-        datos = cursor.execute("DELETE FROM peliculas WHERE id=?",(id,))
-        self.connection.commit()
-        cursor.close()
-        if (datos.rowcount==0):
-            raise IndexError("El identificador de la película")
-
     def __del__(self):
         self.connection.close()
+     
 
-DB_NAME = "movies.db"
+DB_NAME = "movies_binary.db"
 
-#pelicula = Pelicula(0, 'Superman', 90)
 db_manager = DBManager(DB_NAME)
-pelicula = db_manager.get_movie(1)
-pelicula.duracion = 1_000
-db_manager.update_movie(pelicula)
-db_manager.delete_movie(1)
+#pelicula = Pelicula(id=0, titulo='Memorias de África', duracion=95)
+#db_manager.insert_movie(pickle.dumps(pelicula))
+#pelicula = db_manager.get_movie(1)
+#print(pelicula)
+peliculas = db_manager.get_movies()
+for pelicula in peliculas:
+    print(pelicula)
