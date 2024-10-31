@@ -1,8 +1,7 @@
-import os
+from persistencia import GestorPersistenciaFactory
 
 from pelicula import Pelicula
 
-EXTENSION = '.movie'
 
 def crear():
     titulo = input("Título:")
@@ -11,12 +10,10 @@ def crear():
     pelicula.save()
 
 def leer():
-    '''
-    lista_archivos = os.listdir()
-    for archivo in lista_archivos:
-        if (archivo.endswith(EXTENSION)):
-            print(archivo)
-    '''
+    gestor_persistencia = GestorPersistenciaFactory.get_gestor()
+    ficheros = gestor_persistencia.get_movies()
+    for fichero in ficheros:
+        print(fichero)
     titulo = input("Título:")
     pelicula = Pelicula(titulo)
     pelicula.load()
